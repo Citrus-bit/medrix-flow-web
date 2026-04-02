@@ -24,9 +24,9 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "MedrixFlow - AI Super Agent System",
+  title: "MedrixFlow - 全栈 AI 代理编排平台",
   description:
-    "An AI super agent system built on LangGraph with sandbox execution, persistent memory, and extensible tool integration.",
+    "基于 LangGraph 构建的全栈 AI 代理编排平台，支持沙箱执行、持久化记忆、多代理协作和可扩展工具生态。",
   keywords: [
     "AI",
     "LangGraph",
@@ -35,11 +35,12 @@ export const metadata: Metadata = {
     "MCP",
     "Next.js",
     "FastAPI",
+    "LangChain",
   ],
   openGraph: {
-    title: "MedrixFlow - AI Super Agent System",
+    title: "MedrixFlow - 全栈 AI 代理编排平台",
     description:
-      "Build intelligent AI agents with sandbox execution, persistent memory, and extensible tools.",
+      "沙箱执行 · 持久化记忆 · 多代理协作 · 可扩展工具生态",
     type: "website",
   },
 };

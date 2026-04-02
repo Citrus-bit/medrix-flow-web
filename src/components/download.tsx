@@ -16,11 +16,14 @@ const cloneCommand = "git clone https://github.com/Citrus-bit/medrix-flow.git";
 
 const techStack = [
   { name: "LangGraph", color: "#0891b2" },
-  { name: "Next.js 16", color: "#0f2b2e" },
-  { name: "React 19", color: "#06b6d4" },
+  { name: "LangChain", color: "#06b6d4" },
   { name: "FastAPI", color: "#14b8a6" },
-  { name: "Tailwind CSS 4", color: "#22d3ee" },
+  { name: "Next.js 16", color: "#0f2b2e" },
+  { name: "React 19", color: "#22d3ee" },
+  { name: "TailwindCSS 4", color: "#06b6d4" },
   { name: "Shadcn UI", color: "#0e4a5a" },
+  { name: "TanStack Query", color: "#0891b2" },
+  { name: "LangGraph SDK", color: "#14b8a6" },
 ];
 
 function CloneCopyButton() {
@@ -130,6 +133,22 @@ export function DownloadSection() {
               </div>
               <Download className="h-4 w-4 text-muted-foreground ml-auto flex-shrink-0" />
             </a>
+          </div>
+
+          <div className="glass-light rounded-xl px-5 py-4 mb-8">
+            <div className="flex items-center gap-3">
+              <div className="h-10 w-10 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0">
+                <span className="text-primary font-bold text-sm">🐳</span>
+              </div>
+              <div>
+                <p className="text-sm font-semibold text-foreground">
+                  Docker 部署
+                </p>
+                <p className="text-xs text-muted-foreground">
+                  <code className="text-primary/80 font-mono">make up</code> 一键构建并启动生产环境 Docker 容器
+                </p>
+              </div>
+            </div>
           </div>
 
           <div>

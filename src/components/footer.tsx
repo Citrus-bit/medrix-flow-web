@@ -14,8 +14,16 @@ const links = [
     href: "https://github.com/Citrus-bit/medrix-flow",
   },
   {
-    title: "文档",
-    href: "https://github.com/Citrus-bit/medrix-flow/tree/main/backend/docs",
+    title: "配置指南",
+    href: "https://github.com/Citrus-bit/medrix-flow/blob/main/backend/docs/CONFIGURATION.md",
+  },
+  {
+    title: "架构详解",
+    href: "https://github.com/Citrus-bit/medrix-flow/blob/main/backend/docs/ARCHITECTURE.md",
+  },
+  {
+    title: "API 参考",
+    href: "https://github.com/Citrus-bit/medrix-flow/blob/main/backend/docs/API.md",
   },
   {
     title: "Issues",
@@ -39,7 +47,7 @@ export function Footer() {
               </span>
             </div>
             <p className="text-sm text-muted-foreground leading-relaxed max-w-sm">
-              基于 LangGraph 构建的 AI 超级代理系统，具备沙箱执行、持久化记忆和可扩展工具集成能力。
+              基于 LangGraph 构建的全栈 AI 代理编排平台，支持沙箱执行、持久化记忆、多代理协作和可扩展工具生态。
             </p>
           </div>
 
@@ -69,7 +77,7 @@ export function Footer() {
               技术驱动
             </h3>
             <div className="flex flex-wrap gap-2">
-              {["LangGraph", "LangChain", "FastAPI", "Next.js", "React", "Tailwind CSS"].map(
+              {["LangGraph", "LangChain", "FastAPI", "Next.js", "React", "TailwindCSS", "Shadcn UI"].map(
                 (tech) => (
                   <span
                     key={tech}

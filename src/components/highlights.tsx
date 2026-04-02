@@ -1,47 +1,48 @@
 "use client";
 
 import { motion } from "motion/react";
-import { Sparkles, Zap, Eye, Lock, RefreshCw, GitBranch } from "lucide-react";
+import { Sparkles, Zap, Eye, Lock, RefreshCw, GitBranch, Layers, AlertTriangle } from "lucide-react";
 
 const highlights = [
   {
-    badge: "核心体验",
-    title: "对话即工作台",
-    subtitle: "不只是聊天，是一个完整的开发环境",
+    badge: "核心引擎",
+    title: "17 层中间件流水线",
+    subtitle: "显式有序编排，每层各司其职",
     description:
-      "你发送一条消息，AI 便获得了一个完整的沙箱——能执行 bash 命令、安装 pip 包、读写文件、生成图表。完成后文件自动归档到你的线程空间，下次对话随时取用。不需要在终端和聊天窗口之间来回切换，对话本身就是你的工作台。",
+      "16+ 个中间件各自处理不同的横切关注点，但彼此存在隐式依赖——SandboxMiddleware 必须在 UploadsMiddleware 之后（需要线程目录已创建），ClarificationMiddleware 必须在最后（需要中断图执行）。MedrixFlow 采用显式有序中间件链模式，从 ThreadData 到 Clarification 按固定顺序串行执行，覆盖线程隔离、文件上传、沙箱生命周期、安全审计、上下文摘要、记忆提取、循环检测、Token 追踪等全部横切关注点。",
     details: [
-      { icon: Lock, text: "每个线程独立隔离，互不干扰" },
-      { icon: RefreshCw, text: "沙箱超时自动回收，资源零泄漏" },
-      { icon: GitBranch, text: "文件产物持久化，跨对话可复用" },
+      { icon: Layers, text: "ThreadData → Uploads → Sandbox → ... → TokenUsage → Clarification" },
+      { icon: Lock, text: "SandboxAudit 三级分类——block / warn / pass，阻断高危命令" },
+      { icon: RefreshCw, text: "Summarization 支持 token 阈值、消息数量、模型上限百分比三种触发策略" },
     ],
     visual: {
       lines: [
-        { prefix: "user", text: "帮我分析这份 CSV 数据的趋势" },
-        { prefix: "agent", text: "正在创建分析环境..." },
-        { prefix: "sandbox", text: "pip install pandas matplotlib ✓" },
-        { prefix: "sandbox", text: "python analyze.py → chart.png ✓" },
-        { prefix: "agent", text: "分析完成，趋势图已生成 →" },
+        { prefix: "mw-1", text: "ThreadData → 创建线程隔离目录 ✓" },
+        { prefix: "mw-3", text: "Sandbox → 获取沙箱执行环境 ✓" },
+        { prefix: "mw-10", text: "Memory → 排入异步记忆抽取队列 ✓" },
+        { prefix: "mw-15", text: "SandboxAudit → bash 命令安全检查 ✓" },
+        { prefix: "mw-17", text: "Clarification → 拦截澄清请求 ✓" },
       ],
     },
   },
   {
     badge: "技术难点",
     title: "记忆不是缓存",
-    subtitle: "真正理解用户的持久化认知系统",
+    subtitle: "LLM 驱动的结构化长期记忆",
     description:
-      "大多数 AI 的 \"记忆\" 不过是把聊天记录塞进上下文窗口。MedrixFlow 不同——它用独立的记忆提取管线，从对话中自动识别事实、偏好和背景，存储为带置信度评分的结构化知识。高置信度的事实会被优先注入到未来的提示中，低置信度的逐渐衰减。这不是简单的 key-value 缓存，而是一个渐进式学习的认知模型。",
+      "大多数 AI 的「记忆」不过是把聊天记录塞进上下文窗口。MedrixFlow 用独立的记忆提取管线，由 LLM 分析对话内容，自动提取用户背景（职业、偏好）、事实（带置信度评分）和上下文。11 条中英文正则模式实时检测用户纠正意图（如「不对」「其实是」「actually」），触发记忆优先更新，避免错误事实被持久化。通过可配置的 debounce 机制（默认 30s）聚合多轮对话变化，减少 LLM 调用开销。",
     details: [
-      { icon: Sparkles, text: "自动提取——无需手动标记记忆点" },
-      { icon: Zap, text: "置信度衰减——错误信息自然淘汰" },
-      { icon: Eye, text: "透明可审计——你能看到 AI 记住了什么" },
+      { icon: Sparkles, text: "自动知识抽取——无需手动标记，LLM 自动提取结构化知识" },
+      { icon: AlertTriangle, text: "纠正检测——11 条正则实时捕获「不对」「actually」等纠正意图" },
+      { icon: Eye, text: "可插拔存储——默认 JSON，可切换 SQLite、Redis 等任意后端" },
     ],
     visual: {
       lines: [
         { prefix: "memory", text: "用户偏好: TypeScript (置信度 0.95)" },
         { prefix: "memory", text: "技术栈: React + Next.js (0.88)" },
-        { prefix: "memory", text: "工作习惯: 喜欢详细注释 (0.72)" },
-        { prefix: "inject", text: "→ 注入提示词，个性化响应" },
+        { prefix: "correct", text: "用户: \"其实我现在用 Vue 了\"" },
+        { prefix: "update", text: "→ 触发纠正检测，优先更新记忆" },
+        { prefix: "inject", text: "→ 高置信度事实注入提示词" },
       ],
     },
   },
@@ -50,11 +51,11 @@ const highlights = [
     title: "子代理不是噱头",
     subtitle: "真正的并行任务分解与协作执行",
     description:
-      "当任务足够复杂，主代理会拆分为多个子任务并行分发。每个子代理拥有独立上下文和工具集，15 分钟执行超时保护。这不是简单地多调几次 API——子代理之间有任务依赖图管理、结果聚合和冲突检测。最多 3 路并发，真实缩短复杂任务的端到端时间。",
+      "当任务足够复杂，Lead Agent 会拆分为多个子任务并行分发。每个子代理拥有独立上下文和工具集，15 分钟执行超时保护。子代理之间有任务依赖图管理、结果聚合和冲突检测。最多 3 路并发，真实缩短复杂任务的端到端时间。子代理进度通过 onCustomEvent 实时推送到前端 SubtaskCard。",
     details: [
-      { icon: GitBranch, text: "任务依赖图——自动编排执行顺序" },
-      { icon: RefreshCw, text: "15 分钟超时——避免无限循环" },
-      { icon: Lock, text: "结果聚合——子代理成果自动合并" },
+      { icon: GitBranch, text: "任务依赖图——Lead Agent 自动编排执行顺序" },
+      { icon: RefreshCw, text: "15 分钟超时——SubagentLimitMiddleware 控制并发上限" },
+      { icon: Zap, text: "实时进度——onCustomEvent 触发 SubtaskCard 实时更新" },
     ],
     visual: {
       lines: [
@@ -78,11 +79,18 @@ function TerminalVisual({
     agent: "#14b8a6",
     sandbox: "#0891b2",
     memory: "#06b6d4",
+    correct: "#f59e0b",
+    update: "#14b8a6",
     inject: "#14b8a6",
     lead: "#22d3ee",
     "sub-1": "#0891b2",
     "sub-2": "#06b6d4",
     "sub-3": "#14b8a6",
+    "mw-1": "#22d3ee",
+    "mw-3": "#0891b2",
+    "mw-10": "#06b6d4",
+    "mw-15": "#f59e0b",
+    "mw-17": "#14b8a6",
   };
 
   return (
@@ -125,7 +133,7 @@ export function Highlights() {
             <span className="gradient-text">深入了解</span>
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            不是功能清单，而是真正改变你使用 AI 方式的核心设计
+            不是功能清单，而是解决真实工程难题的核心设计
           </p>
         </motion.div>
 

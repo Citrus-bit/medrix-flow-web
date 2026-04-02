@@ -2,41 +2,62 @@
 
 import { useState } from "react";
 import { motion } from "motion/react";
-import { Check, Copy, Terminal, Package, Settings, Play, Download } from "lucide-react";
+import {
+  Check,
+  Copy,
+  Terminal,
+  Package,
+  Settings,
+  Play,
+  Download,
+  RotateCcw,
+  Zap,
+} from "lucide-react";
 
 const prerequisites = [
   { name: "Python", version: "3.12+" },
-  { name: "Node.js", version: "22+" },
-  { name: "pnpm", version: "10.26.2+" },
   { name: "uv", version: "最新版" },
+  { name: "Node.js", version: "22+" },
+  { name: "pnpm", version: "10+" },
+  { name: "nginx", version: "-" },
 ];
 
-const steps = [
+const firstTimeSteps = [
   {
     icon: Download,
     title: "克隆项目",
-    command: "git clone https://github.com/Citrus-bit/medrix-flow.git && cd medrix-flow",
+    command:
+      "git clone https://github.com/Citrus-bit/medrix-flow.git && cd medrix-flow",
   },
   {
     icon: Settings,
-    title: "复制配置",
-    command: "cp config.example.yaml config.yaml",
+    title: "生成配置",
+    command: "make config",
+    note: "自动生成 config.yaml 和 .env（仅首次需要）",
   },
   {
     icon: Package,
-    title: "安装后端",
-    command: "cd backend && make install",
-  },
-  {
-    icon: Package,
-    title: "安装前端",
-    command: "cd frontend && pnpm install",
+    title: "安装依赖",
+    command: "make install",
+    note: "一键安装前后端所有依赖",
   },
   {
     icon: Play,
-    title: "启动应用",
+    title: "启动服务",
     command: "make dev",
+    note: "启动 LangGraph + Gateway + Frontend + Nginx",
   },
+];
+
+const quickCommands = [
+  { command: "make dev", desc: "开发模式启动（热重载）" },
+  { command: "make start", desc: "生产模式启动" },
+  { command: "make dev-daemon", desc: "后台守护进程启动" },
+  { command: "make stop", desc: "停止所有服务" },
+  { command: "make check", desc: "检查前置工具" },
+  { command: "make clean", desc: "停止并清理临时文件" },
+  { command: "make up", desc: "Docker 生产部署" },
+  { command: "make down", desc: "停止 Docker 容器" },
 ];
 
 function CopyButton({ text }: { text: string }) {
@@ -90,10 +111,11 @@ export function Installation() {
             <span className="gradient-text">快速开始</span>
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            五步完成安装，开始使用 MedrixFlow
+            4 步完成安装，无需手动编辑任何配置文件
           </p>
         </motion.div>
 
+        {/* Prerequisites */}
         <motion.div
           className="flex flex-wrap justify-center gap-3 mb-12"
           initial={{ opacity: 0, y: 20 }}
@@ -115,8 +137,9 @@ export function Installation() {
           ))}
         </motion.div>
 
-        <div className="max-w-3xl mx-auto space-y-4">
-          {steps.map((step, i) => (
+        {/* First-time install steps */}
+        <div className="max-w-3xl mx-auto space-y-4 mb-20">
+          {firstTimeSteps.map((step, i) => (
             <motion.div
               key={step.title}
               className="flex gap-4 items-start"
@@ -129,7 +152,7 @@ export function Installation() {
                 <div className="h-10 w-10 rounded-xl medrix-gradient flex items-center justify-center text-white text-sm font-bold">
                   {i + 1}
                 </div>
-                {i < steps.length - 1 && (
+                {i < firstTimeSteps.length - 1 && (
                   <div className="w-px h-full min-h-[24px] bg-border mt-2" />
                 )}
               </div>
@@ -156,18 +179,84 @@ export function Installation() {
                     <CopyButton text={step.command} />
                   </div>
                 </div>
-                {i === steps.length - 1 && (
+                {step.note && (
+                  <p className="text-xs text-muted-foreground mt-2">
+                    {step.note}
+                  </p>
+                )}
+                {i === firstTimeSteps.length - 1 && (
                   <p className="text-sm text-muted-foreground mt-3">
                     启动后访问{" "}
                     <code className="text-primary font-mono text-xs px-1.5 py-0.5 rounded bg-primary/10">
                       http://localhost:1000
                     </code>
+                    ，首次打开页面时设置面板会自动弹出引导配置模型与 API Key。
                   </p>
                 )}
               </div>
             </motion.div>
           ))}
         </div>
+
+        {/* Daily quick-start */}
+        <motion.div
+          className="max-w-3xl mx-auto"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+        >
+          <div className="flex items-center gap-3 mb-6">
+            <div className="h-8 w-8 rounded-lg bg-primary/10 flex items-center justify-center">
+              <RotateCcw className="h-4 w-4 text-primary" />
+            </div>
+            <h3 className="text-xl font-bold text-foreground">
+              日常启动
+            </h3>
+            <span className="text-sm text-muted-foreground">
+              已安装过？一条命令就够了
+            </span>
+          </div>
+          <div className="glass-light rounded-xl overflow-hidden mb-8">
+            <div className="flex items-center justify-between px-5 py-4 bg-[#0b1e21] rounded-xl">
+              <code className="text-base font-mono text-[#e0f2f4]">
+                <span className="text-[#22d3ee]">$ </span>make dev
+              </code>
+              <CopyButton text="make dev" />
+            </div>
+          </div>
+
+          {/* Common commands reference */}
+          <div className="flex items-center gap-3 mb-4">
+            <div className="h-8 w-8 rounded-lg bg-primary/10 flex items-center justify-center">
+              <Zap className="h-4 w-4 text-primary" />
+            </div>
+            <h3 className="text-xl font-bold text-foreground">
+              常用命令
+            </h3>
+          </div>
+          <div className="glass-light rounded-2xl overflow-hidden">
+            <div className="grid grid-cols-1 sm:grid-cols-2 divide-y sm:divide-y-0 sm:divide-x divide-border/30">
+              {quickCommands.map((cmd, i) => (
+                <div
+                  key={cmd.command}
+                  className={`flex items-center justify-between px-4 py-3 ${
+                    i >= 2 ? "border-t border-border/30" : ""
+                  }`}
+                >
+                  <div className="flex items-center gap-3 min-w-0">
+                    <code className="text-xs font-mono text-primary whitespace-nowrap">
+                      {cmd.command}
+                    </code>
+                    <span className="text-xs text-muted-foreground truncate">
+                      {cmd.desc}
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </motion.div>
       </div>
     </section>
   );

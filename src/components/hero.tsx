@@ -4,10 +4,10 @@ import { motion } from "motion/react";
 import { ArrowDown, ExternalLink } from "lucide-react";
 
 const stats = [
+  { value: "17", label: "中间件流水线" },
   { value: "3", label: "子代理并发" },
-  { value: "9", label: "中间件组件" },
-  { value: "15+", label: "工具集成" },
-  { value: "MIT", label: "开源协议" },
+  { value: "20+", label: "工具集成" },
+  { value: "277", label: "测试用例" },
 ];
 
 export function Hero() {
@@ -48,7 +48,7 @@ export function Hero() {
           <div className="inline-flex items-center gap-2 glass-light rounded-full px-5 py-2 mb-8">
             <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
             <span className="text-sm font-medium text-muted-foreground">
-              基于 LangGraph 构建的 AI 超级代理
+              基于 LangGraph 构建的全栈 AI 代理编排平台
             </span>
           </div>
         </motion.div>
@@ -70,9 +70,9 @@ export function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
         >
-          具备沙箱执行、持久化记忆和可扩展工具集成能力。
+          沙箱执行 · 持久化记忆 · 多代理协作 · 可扩展工具生态
           <br className="hidden sm:block" />
-          让 AI 代理在隔离环境中执行代码、管理文件、协作完成复杂任务。
+          在隔离环境中执行代码、浏览网页、管理文件，跨对话保留上下文。
         </motion.p>
 
         <motion.div
@@ -119,13 +119,17 @@ export function Hero() {
               </p>
               <p>
                 <span className="text-[#22d3ee]">$</span> cd medrix-flow &&
-                make dev
+                make config && make install
+              </p>
+              <p>
+                <span className="text-[#22d3ee]">$</span> make dev
               </p>
               <p className="text-[#14b8a6]">
                 ✓ LangGraph server running on :2024
               </p>
               <p className="text-[#14b8a6]">✓ Gateway API running on :8001</p>
               <p className="text-[#14b8a6]">✓ Frontend running on :3000</p>
+              <p className="text-[#14b8a6]">✓ Nginx proxy running on :1000</p>
               <p className="text-[#22d3ee]">
                 → Ready at http://localhost:1000
               </p>

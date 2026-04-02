@@ -5,12 +5,10 @@ import {
   Bot,
   ShieldCheck,
   Brain,
-  Wrench,
   MessageSquare,
-  Layers,
-  Sparkles,
-  Eye,
   Zap,
+  Shield,
+  Settings,
   type LucideIcon,
 } from "lucide-react";
 
@@ -25,51 +23,59 @@ interface Feature {
 const features: Feature[] = [
   {
     icon: Bot,
-    title: "智能代理系统",
-    scene: "复杂任务自动分解",
+    title: "LangGraph 多代理编排",
+    scene: "有向图状态机驱动",
     description:
-      "主代理分析任务后自动拆分为子任务，最多 3 个子代理并行工作。就像一个项目经理带领团队，各自独立完成后汇总结果。",
-    highlights: ["动态模型切换", "思考链可视化", "多模态理解"],
+      "区别于简单的 LLM 链式调用，采用 LangGraph 有向图状态机作为核心编排引擎。Lead Agent 负责任务拆分，最多 3 个子代理并行执行，每个任务独立 15 分钟超时控制。支持同一对话内动态切换模型，Thinking 和 Vision 模式运行时启停。",
+    highlights: ["Lead + Subagent 分层", "动态模型热切换", "17 层中间件链"],
   },
   {
     icon: ShieldCheck,
-    title: "安全沙箱",
-    scene: "让 AI 放心写代码",
+    title: "线程级沙箱隔离",
+    scene: "每个对话都是独立环境",
     description:
-      "每次对话自动创建独立的隔离环境——AI 可以安装依赖、运行脚本、读写文件，但不会影响你的主系统。出错了？丢掉沙箱就好。",
-    highlights: ["线程级隔离", "虚拟文件系统", "超时自动回收"],
+      "每个对话线程拥有完全隔离的执行环境——虚拟文件系统自动映射到线程专属物理目录，杜绝跨线程数据泄露。支持本地直接执行和 Docker 容器隔离两种引擎，生产环境可切换至 K3s Pod 级别隔离。",
+    highlights: ["虚拟文件系统映射", "双沙箱引擎", "Bash 安全审计"],
   },
   {
     icon: Brain,
-    title: "持久化记忆",
-    scene: "AI 真正\"记住\"你",
+    title: "LLM 驱动的持久化记忆",
+    scene: "真正理解用户的认知系统",
     description:
-      "不再每次重复自我介绍。系统自动提取你的技术栈偏好、项目背景和工作习惯，下次对话直接带入上下文，越用越懂你。",
-    highlights: ["置信度评分", "自动提取", "渐进式学习"],
+      "不同于简单的对话历史拼接，由 LLM 自动提取用户背景、事实（带置信度评分）和上下文。11 条中英文正则实时检测用户纠正意图，触发记忆优先更新。防抖批处理减少 LLM 调用开销，可插拔存储后端支持 SQLite、Redis 等。",
+    highlights: ["置信度评分", "纠正检测", "可插拔存储"],
   },
   {
-    icon: Wrench,
-    title: "开放工具生态",
-    scene: "想用什么就接什么",
+    icon: Zap,
+    title: "流式传输与断连恢复",
+    scene: "生产级实时体验",
     description:
-      "内置搜索、抓取、文件处理等常用工具，通过 MCP 协议一键接入任意外部服务。还能通过 Skills 注入领域专业知识，让代理成为行业专家。",
-    highlights: ["MCP 协议", "Tavily · Jina · Firecrawl", "Skills 工作流"],
+      "基于 LangGraph SDK 的 useStream 实现 SSE 流式渲染——Agent 响应、Thinking 过程、子代理进度全部实时展示。reconnectOnMount + streamResumable 机制确保页面刷新或网络断连后自动重连，后端继续运行不中断。",
+    highlights: ["SSE 流式渲染", "断连自动恢复", "乐观 UI 更新"],
+  },
+  {
+    icon: Settings,
+    title: "前端配置即用",
+    scene: "Zero-Config UX",
+    description:
+      "模型和 API Key 配置完全在前端 UI 完成，无需手动编辑任何配置文件。首次访问自动弹出配置面板，一键测试模型连通性。保存后自动写入 config.yaml + .env 并热重载生效，无需重启服务。",
+    highlights: ["自动引导配置", "一键测试连通性", "配置热重载"],
   },
   {
     icon: MessageSquare,
-    title: "多平台即用",
+    title: "多渠道接入",
     scene: "在你习惯的地方使用",
     description:
-      "不仅仅是一个 Web 应用——飞书里直接对话看实时流式回复，Slack 和 Telegram 也能接入。团队无需切换工具，在工作流中直接使用 AI 能力。",
-    highlights: ["飞书卡片更新", "Slack Bot", "Telegram 集成"],
+      "不仅仅是 Web 应用——飞书里直接对话看实时流式回复，卡片消息原地更新。Slack 通过 Socket Mode WebSocket 连接无需公网 IP。Telegram Bot 支持每用户独立会话配置。团队无需切换工具。",
+    highlights: ["飞书卡片更新", "Slack Socket Mode", "Telegram Bot"],
   },
   {
-    icon: Layers,
-    title: "生产级架构",
-    scene: "不是玩具，是真正能部署的",
+    icon: Shield,
+    title: "安全审计与可观测性",
+    scene: "内置安全与成本监控",
     description:
-      "9 层中间件流水线处理鉴权、上传、记忆注入等关键流程。Nginx 做统一入口，LangGraph 和 FastAPI 各司其职，水平扩展无压力。",
-    highlights: ["中间件链", "双服务分离", "Docker 一键部署"],
+      "SandboxAuditMiddleware 对每条 bash 命令三级分类（block / warn / pass），自动阻断高危命令。TokenUsageMiddleware 记录每次 LLM 调用的 token 用量，为成本监控和配额管理提供数据基础。全量审计日志输出。",
+    highlights: ["命令三级审计", "Token 用量追踪", "安全等级感知"],
   },
 ];
 
@@ -88,7 +94,7 @@ export function Features() {
             <span className="gradient-text">为什么选择 MedrixFlow</span>
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            不只是又一个 AI 框架——每个功能都解决真实的开发痛点
+            不只是又一个 AI 框架——每个模块都解决真实的工程难题
           </p>
         </motion.div>
 
