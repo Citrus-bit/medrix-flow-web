@@ -102,7 +102,17 @@ export function Features() {
           {features.map((feature, i) => (
             <motion.div
               key={feature.title}
-              className="glass-card rounded-2xl p-6 flex flex-col"
+              className={[
+                "glass-card rounded-2xl p-6 flex flex-col",
+                features.length % 2 === 1 && i === features.length - 1
+                  ? "md:col-start-1 md:col-span-2 md:max-w-[calc(50%-0.75rem)] md:mx-auto lg:col-span-1 lg:max-w-none"
+                  : "",
+                features.length % 3 === 1 && i === features.length - 1
+                  ? "lg:col-start-2"
+                  : "",
+              ]
+                .filter(Boolean)
+                .join(" ")}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
