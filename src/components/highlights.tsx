@@ -94,7 +94,7 @@ function TerminalVisual({
   };
 
   return (
-    <div className="rounded-xl bg-[#0b1e21] p-5 font-mono text-sm">
+    <div className="terminal-block rounded-xl bg-[#0b1e21] p-5 font-mono text-sm">
       <div className="flex items-center gap-2 mb-4">
         <span className="h-2.5 w-2.5 rounded-full bg-red-400/70" />
         <span className="h-2.5 w-2.5 rounded-full bg-yellow-400/70" />

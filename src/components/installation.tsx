@@ -171,7 +171,7 @@ export function Installation() {
                       terminal
                     </span>
                   </div>
-                  <div className="flex items-center justify-between px-4 py-3 bg-[#0b1e21] rounded-b-xl">
+                  <div className="terminal-block flex items-center justify-between px-4 py-3 bg-[#0b1e21] rounded-b-xl">
                     <code className="text-sm font-mono text-[#e0f2f4] overflow-x-auto">
                       <span className="text-[#22d3ee]">$ </span>
                       {step.command}
@@ -218,7 +218,7 @@ export function Installation() {
             </span>
           </div>
           <div className="glass-light rounded-xl overflow-hidden mb-8">
-            <div className="flex items-center justify-between px-5 py-4 bg-[#0b1e21] rounded-xl">
+            <div className="terminal-block flex items-center justify-between px-5 py-4 bg-[#0b1e21] rounded-xl">
               <code className="text-base font-mono text-[#e0f2f4]">
                 <span className="text-[#22d3ee]">$ </span>make dev
               </code>

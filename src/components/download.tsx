@@ -83,7 +83,7 @@ export function DownloadSection() {
             <h3 className="text-sm font-semibold text-foreground mb-3 uppercase tracking-wider">
               Git Clone
             </h3>
-            <div className="flex items-center gap-2 bg-[#0b1e21] rounded-xl px-4 py-3">
+            <div className="terminal-block flex items-center gap-2 bg-[#0b1e21] rounded-xl px-4 py-3">
               <code className="flex-1 text-sm font-mono text-[#e0f2f4] overflow-x-auto">
                 <span className="text-[#22d3ee]">$ </span>
                 {cloneCommand}

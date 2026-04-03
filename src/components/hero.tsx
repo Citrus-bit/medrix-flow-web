@@ -105,7 +105,7 @@ export function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
         >
-          <div className="rounded-xl bg-[#0b1e21] p-6 font-mono text-sm text-left overflow-x-auto">
+          <div className="terminal-block rounded-xl bg-[#0b1e21] p-6 font-mono text-sm text-left overflow-x-auto">
             <div className="flex items-center gap-2 mb-4">
               <span className="h-3 w-3 rounded-full bg-red-400/80" />
               <span className="h-3 w-3 rounded-full bg-yellow-400/80" />
